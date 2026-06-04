@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:foodgo/screens/Topic7_textfield.dart';
+import 'package:foodgo/screens/topic9_gridview.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -7,12 +8,11 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Topic7Textfield(),
+      home: Topic9Gridview(),
     );
   }
 }
