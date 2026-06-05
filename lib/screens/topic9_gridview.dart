@@ -40,7 +40,7 @@ class Topic9Gridview extends StatelessWidget{
         child: GridView.builder(
             itemCount:foodNames.length,
             gridDelegate:
-            const SliverGridDelegateWithFixedCrossAxisCount(
+              const SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
               crossAxisSpacing: 15,
               mainAxisSpacing: 15,

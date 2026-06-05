@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:foodgo/screens/topic10_homepage.dart';
+import 'package:foodgo/screens/topic11.dart';
 import 'package:foodgo/screens/topic9_gridview.dart';
 
 void main() {
@@ -12,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Topic9Gridview(),
+      home: Topic11(),
     );
   }
 }
