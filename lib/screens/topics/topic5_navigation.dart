@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'subscreens/second_page.dart';
+import '../subscreens/second_page.dart';
 
 class Topic5Navigation extends StatelessWidget{
   const Topic5Navigation({super.key});
