@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:foodgo/screens/godrive/Mypage/mypage.dart';
+import 'package:foodgo/screens/Log%20in/login_page.dart';
+import 'package:foodgo/screens/godrive/Mypage/myprofile.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -9,9 +11,9 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const Name(),
+      home: LoginPage(),
     );
   }
 }
