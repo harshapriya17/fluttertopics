@@ -1,188 +1,261 @@
 import 'package:flutter/material.dart';
+import 'package:foodgo/screens/topics/topic1_stateless.dart';
+import 'Widgets/auth_tab_widget.dart';
+import 'Widgets/custom_button.dart';
+import 'Widgets/custom_textfield_widget.dart';
+import 'forget_password.dart';
+import 'data/mock_login_data.dart';
 
-class LoginPage extends StatefulWidget{
- const LoginPage({super.key});
- @override
-  State<LoginPage>createState()=>_LoginPageState();
-}
-class _LoginPageState extends State<LoginPage>{
-  bool isLoginSelected = true;
-  bool obscurePassword=true;
-  bool hasPasswordError=true;
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
 
   @override
-  Widget build(BuildContext context){
+  State<LoginPage> createState() =>
+      _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  bool isLoginSelected = true;
+  bool obscurePassword = true;
+
+  bool hasError = false;
+  bool emailError = false;
+
+  String emailErrorText = "";
+
+  final TextEditingController emailController =
+  TextEditingController(
+    text:"admin@gmail.com",
+  );
+
+  final TextEditingController passwordController =
+  TextEditingController(
+    text:"admin123",
+  );
+
+  if (email != MockLoginData.email) {
+  setState(() {
+  emailError = true;
+  emailErrorText = "Email not found";
+  });
+  return;
+  }
+
+  if (password != MockLoginData.password) {
+  setState(() {
+  hasError = true;
+  });
+  return;
+  }
+
+  void loginValidation() {
+    String email =
+    emailController.text.trim();
+
+    String password =
+    passwordController.text.trim();
+
+    setState(() {
+      emailError = false;
+      hasError = false;
+    });
+
+    if (email.isEmpty) {
+      setState(() {
+        emailError = true;
+        emailErrorText =
+        "Email is required";
+      });
+      return;
+    }
+
+    if (!email.contains("@")) {
+      setState(() {
+        emailError = true;
+        emailErrorText =
+        "Enter valid email";
+      });
+      return;
+    }
+
+    if (email != sampleEmail) {
+      setState(() {
+        emailError = true;
+        emailErrorText =
+        "Email not found";
+      });
+      return;
+    }
+
+    if (password.isEmpty) {
+      setState(() {
+        hasError = true;
+      });
+      return;
+    }
+
+    if (password != samplePassword) {
+      setState(() {
+        hasError = true;
+      });
+      return;
+    }
+
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (_) =>
+        const Topic1Stateless(),
+      ),
+    );
+  }
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
 
-      body:SafeArea(
-          child: Padding(
-              padding: const EdgeInsetsGeometry.symmetric(
-                horizontal: 20,
-                vertical: 10,
-      ),
-          child: Column(
-            children: [
-              const SizedBox(height: 25),
+      body: SafeArea(
+        child: Padding(
+          padding:
+          const EdgeInsets.symmetric(
+            horizontal: 20,
+          ),
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment:
+              CrossAxisAlignment.start,
+              children: [
 
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  GestureDetector(
-                    onTap: (){
+                const SizedBox(height: 30),
+
+                // LOGIN / SIGNUP TAB
+
+                Row(
+                  mainAxisAlignment:
+                  MainAxisAlignment.center,
+                  children: [
+
+                    AuthTabWidget(
+                      title: "Log in",
+                      isSelected:
+                      isLoginSelected,
+                      onTap: () {
+                        setState(() {
+                          isLoginSelected =
+                          true;
+                        });
+                      },
+                    ),
+
+                    const SizedBox(
+                      width: 40,
+                    ),
+
+                    AuthTabWidget(
+                      title: "Sign up",
+                      isSelected:
+                      !isLoginSelected,
+                      onTap: () {
+                        setState(() {
+                          isLoginSelected =
+                          false;
+                        });
+                      },
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 60),
+
+                // EMAIL FIELD
+
+                CustomTextFieldWidget(
+                  title: "Your Email",
+                  hintText:
+                  "admin@gmail.com",
+                  controller:
+                  emailController,
+                  errorText:
+                  emailError
+                      ? emailErrorText
+                      : null,
+                ),
+
+                // PASSWORD FIELD
+
+                CustomTextFieldWidget(
+                  title: "Password",
+                  hintText: "admin123",
+                  controller:
+                  passwordController,
+                  obscureText:
+                  obscurePassword,
+                  errorText: hasError
+                      ? "Wrong Email or Password"
+                      : null,
+                  suffixIcon:
+                  IconButton(
+                    icon: Icon(
+                      obscurePassword
+                          ? Icons
+                          .visibility_off_outlined
+                          : Icons
+                          .visibility_outlined,
+                    ),
+                    onPressed: () {
                       setState(() {
-                        isLoginSelected=true;
+                        obscurePassword =
+                        !obscurePassword;
                       });
                     },
-                    child: Column(
-                      children: [
-                        Text(
-                          "Log in",
-                          style: TextStyle(
-                            color: isLoginSelected
-                                ? const Color(0xFF3C5BA5)
-                                :Colors.grey,
-                            fontSize: 28,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(height:8),
-                        Container(
-                          height: 3,
-                          width: 130,
-                          color: isLoginSelected
-                          ? const Color(0xFF3C5BA5)
-                              :Colors.transparent,
-                        ),
-                      ],
-                    ),
                   ),
-                  const SizedBox(width: 35),
+                ),
 
-                  GestureDetector(
-                    onTap: (){
-                      setState(() {
-                        isLoginSelected=false;
-                      });
-                    },
-                    child: Column(
-                      children: [
-                        Text("Sign up",style: TextStyle(
-                          color: !isLoginSelected
-                              ? const Color(0xFF3C5BA5)
-                              :Colors.transparent,
-                        ),
-                    ),
-                      ]
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height:10),
                 Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Your Email",
-                    style: TextStyle(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                      color: Colors.grey.shade800,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 10),
-              TextFormField(
-                decoration: InputDecoration(
-                  hintText: "contact@dscodetech.com",
-                  filled:true,
-                  fillColor:Colors.grey.shade100,
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-              ),
-              const SizedBox(height:10),
-
-              TextFormField(
-                obscureText: obscurePassword,
-                decoration: InputDecoration(
-                  hintText: "**********",
-
-                  suffixIcon: IconButton(icon: Icon(
-                    obscurePassword
-                    ?Icons.visibility_off_outlined
-                        :Icons.visibility_outlined,
-                  ),
-                  onPressed: (){
-                    setState(() {
-                      obscurePassword=!obscurePassword;
-                    });
-                  },
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(
-                      color: hasPasswordError
-                          ? Colors.red
-                          :Colors.grey.shade300,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide(
-                      color: hasPasswordError
-                          ?Colors.red
-                          :const Color(0xFF3C5BA5),
-                      width: 2,
-                    ),
-                  ),
-                  errorText: hasPasswordError
-                    ? "Wrong Password"
-                      :null,
-                ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  const SizedBox(),
-                  TextButton(onPressed: (){},
-                      child: const Text(
-                        "Forget password?",
-                        style: TextStyle(
-                          color: Color(0xFF3C5BA5),
-                          fontWeight: FontWeight.w600,
+                  alignment:
+                  Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) =>
+                          const ForgotPasswordPage(),
                         ),
-                      ),
-                  ),
-                ],
-              ),
-const SizedBox(height: 15),
-              SizedBox(
-                width: double.infinity,
-                height: 55,
-                child: ElevatedButton(onPressed: (){},
-                    style:ElevatedButton.styleFrom(
-                      backgroundColor:
-                        const Color(0xFF3C5BA5),
-                      shape: RoundedRectangleBorder(
-                        borderRadius:
-                          BorderRadius.circular(12),
+                      );
+                    },
+                    child: const Text(
+                      "Forgot password?",
+                      style: TextStyle(
+                        color:
+                        Color(0xFF3C5BA5),
+                        fontWeight:
+                        FontWeight.w600,
                       ),
                     ),
-                  child: const Text(
-                    "Continue",
-                    style: TextStyle(
-                      fontSize: 17,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                    ),
                   ),
-              ),
-              ),
-            ],
+                ),
+
+                const SizedBox(height: 20),
+
+                CustomButton(
+                  text: "Continue",
+                  onPressed:
+                  loginValidation,
+                ),
+              ],
+            ),
           ),
-          ),
-      ) ,
+        ),
+      ),
     );
   }
 }
