@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:foodgo/screens/topics/topic1_stateless.dart';
-import 'Widgets/auth_tab_widget.dart';
-import 'Widgets/custom_button.dart';
-import 'Widgets/custom_textfield_widget.dart';
+import '../../Widgets/auth_tab_widget.dart';
+import '../../Widgets/custom_button.dart';
+import '../../Widgets/custom_textfield_widget.dart';
+import '../../services/auth_service.dart';
+import '../../utils/validators.dart';
 import 'forget_password.dart';
-import 'data/mock_login_data.dart';
+import '../../data/mock_login_data.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -33,68 +35,30 @@ class _LoginPageState extends State<LoginPage> {
     text:"admin123",
   );
 
-  if (email != MockLoginData.email) {
-  setState(() {
-  emailError = true;
-  emailErrorText = "Email not found";
-  });
-  return;
-  }
-
-  if (password != MockLoginData.password) {
-  setState(() {
-  hasError = true;
-  });
-  return;
-  }
-
   void loginValidation() {
-    String email =
-    emailController.text.trim();
-
-    String password =
-    passwordController.text.trim();
+    String email = emailController.text.trim();
+    String password = passwordController.text.trim();
 
     setState(() {
       emailError = false;
       hasError = false;
     });
 
-    if (email.isEmpty) {
+    String? emailValidation =
+    Validators.validateEmail(email);
+
+    if (emailValidation != null) {
       setState(() {
         emailError = true;
-        emailErrorText =
-        "Email is required";
+        emailErrorText = emailValidation;
       });
       return;
     }
 
-    if (!email.contains("@")) {
-      setState(() {
-        emailError = true;
-        emailErrorText =
-        "Enter valid email";
-      });
-      return;
-    }
-
-    if (email != sampleEmail) {
-      setState(() {
-        emailError = true;
-        emailErrorText =
-        "Email not found";
-      });
-      return;
-    }
-
-    if (password.isEmpty) {
-      setState(() {
-        hasError = true;
-      });
-      return;
-    }
-
-    if (password != samplePassword) {
+    if (!AuthService.login(
+      email,
+      password,
+    )) {
       setState(() {
         hasError = true;
       });

@@ -1,8 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'Widgets/back_button_widget.dart';
-import 'Widgets/custom_button.dart';
-import 'Widgets/otp_box_widget.dart';
+import 'package:foodgo/screens/Log%20in/data/mock_login_data.dart';
+import '../../Widgets/back_button_widget.dart';
+import '../../Widgets/custom_button.dart';
+import '../../Widgets/otp_box_widget.dart';
+import '../../services/auth_service.dart';
 import 'forget_password.dart';
 import 'password_reset.dart';
 
@@ -29,8 +31,6 @@ class _OtpVerificationPageState
 
   bool otpError = false;
   String otpErrorText = "";
-
-  final String sampleOtp = "1234";
 
   int secondsRemaining = 30;
   Timer? timer;
@@ -88,22 +88,22 @@ class _OtpVerificationPageState
     if (enteredOtp.length != 4) {
       setState(() {
         otpError = true;
-        otpErrorText = "OTP must be 4 digits";
+        otpErrorText =
+        "OTP must be 4 digits";
       });
       return;
     }
 
-    if (enteredOtp != sampleOtp) {
+    if (!AuthService.verifyOtp(
+      enteredOtp,
+    )) {
       setState(() {
         otpError = true;
-        otpErrorText = "Invalid OTP";
+        otpErrorText =
+        "Invalid OTP";
       });
       return;
     }
-
-    setState(() {
-      otpError = false;
-    });
 
     Navigator.push(
       context,
@@ -149,7 +149,7 @@ class _OtpVerificationPageState
                 MediaQuery.of(context)
                     .size
                     .height *
-                    0.60,
+                    0.50,
                 child: Column(
                   crossAxisAlignment:
                   CrossAxisAlignment.start,

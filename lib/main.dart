@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:foodgo/screens/Log%20in/login_page.dart';
+import 'package:foodgo/screens/Log%20in/screens/auth/login_page.dart';
 import 'package:foodgo/screens/godrive/Mypage/myprofile.dart';
 
 void main() {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'Widgets/back_button_widget.dart';
-import 'Widgets/custom_button.dart';
+import '../../Widgets/back_button_widget.dart';
+import '../../Widgets/custom_button.dart';
 import 'new_password.dart';
 import 'otp_verification.dart';
 

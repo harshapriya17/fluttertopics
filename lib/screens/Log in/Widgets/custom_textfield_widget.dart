@@ -8,6 +8,8 @@ class CustomTextFieldWidget extends StatelessWidget {
   final bool obscureText;
   final Widget? suffixIcon;
 
+  final Function(String)? onChanged;
+
   const CustomTextFieldWidget({
     super.key,
     required this.title,
@@ -16,6 +18,7 @@ class CustomTextFieldWidget extends StatelessWidget {
     this.errorText,
     this.obscureText = false,
     this.suffixIcon,
+    this.onChanged,
   });
 
   @override
@@ -39,6 +42,7 @@ class CustomTextFieldWidget extends StatelessWidget {
         TextFormField(
           controller: controller,
           obscureText: obscureText,
+          onChanged: onChanged,
 
           decoration: InputDecoration(
             hintText: hintText,
